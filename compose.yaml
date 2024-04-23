@@ -1,0 +1,73 @@
+networks:
+  default: {}
+
+volumes:
+  mysql-data: {}
+  redis-data: {}
+
+services:
+  web:
+    image: moodle
+    build:
+      context: .
+    environment:
+      DB_HOST: 'mysql:3306'
+      DB_USERNAME: 'moodle'
+      DB_PASSWORD: 'moodle'
+      REDIS_HOST: 'redis'
+    env_file: .env.web
+    networks: [default]
+    ports:
+      - 8888:80
+    links: [mysql, redis]
+    volumes:
+      - ./config.local/mapz/config.js:/var/www/bedita/frontends/mapz/dist/js/config.js:ro
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodle
+      MYSQL_PASSWORD: moodle
+    networks: [default]
+    ports:
+      - 3388:3306
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-proot"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
+      start_interval: 2s
+  redis:
+    image: redis
+    networks: [default]
+    volumes:
+      - type: volume
+        source: redis-data
+        target: /data
+        volume:
+          nocopy: true
+    command:
+      - 'redis-server'
+      - '--save'
+      - '' # Disable persistence
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
+      start_interval: 2s

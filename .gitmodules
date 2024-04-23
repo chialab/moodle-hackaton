@@ -1,0 +1,4 @@
+[submodule "moodle"]
+	path = moodle
+	url = git://git.moodle.org/moodle.git
+	branch = MOODLE_404_STABLE
