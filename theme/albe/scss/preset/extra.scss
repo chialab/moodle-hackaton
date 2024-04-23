@@ -170,6 +170,11 @@ idp-login :is(#divider-container, button#guestbutton) {
     }
 }
 
+.login-container {
+    box-shadow: none!important;
+    background: transparent!important;
+}
+
 #region-main {
     background-color: transparent;
 }
