@@ -18,7 +18,7 @@ services:
       DB_USERNAME: 'moodle'
       DB_PASSWORD: 'moodle'
       MOODLE_HOST: 'http://localhost:8080'
-      REDIS_HOST: 'redis'
+#      REDIS_HOST: 'redis'
     networks: [default]
     ports:
       - 8080:80
@@ -29,8 +29,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      redis:
-        condition: service_healthy
+#      redis:
+#        condition: service_healthy
 
   mysql:
     image: mysql:8.0
@@ -56,23 +56,23 @@ services:
       start_period: 3s
       start_interval: 2s
 
-  redis:
-    image: redis
-    networks: [default]
-    volumes:
-      - type: volume
-        source: redis-data
-        target: /data
-        volume:
-          nocopy: true
-    command:
-      - 'redis-server'
-      - '--save'
-      - '' # Disable persistence
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-      start_period: 3s
-      start_interval: 2s
+#  redis:
+#    image: redis
+#    networks: [default]
+#    volumes:
+#      - type: volume
+#        source: redis-data
+#        target: /data
+#        volume:
+#          nocopy: true
+#    command:
+#      - 'redis-server'
+#      - '--save'
+#      - '' # Disable persistence
+#    healthcheck:
+#      test: ["CMD", "redis-cli", "ping"]
+#      interval: 15s
+#      timeout: 5s
+#      retries: 3
+#      start_period: 3s
+#      start_interval: 2s
