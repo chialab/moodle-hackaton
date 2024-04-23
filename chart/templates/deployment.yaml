@@ -60,12 +60,8 @@ spec:
               {{- end }}
             {{- end }}
           {{- end }}
-          {{- with .Values.podLivenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.podReadinessProbe }}
-          readinessProbe:
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           resources:
@@ -82,3 +78,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        {{- range $name, $volume := .Values.volumes }}
+        - name: {{ $name }}
+          {{- toYaml $volume | nindent 10 }}
+        {{- end }}

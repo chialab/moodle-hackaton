@@ -2,7 +2,6 @@ fullnameOverride: 'test'
 
 image:
   repository: '709246138361.dkr.ecr.eu-west-1.amazonaws.com/moodle'
-  tag: '${IMAGE_TAG}'
   pullPolicy: Always
 
 podEnvironment:
@@ -20,14 +19,14 @@ podEnvironment:
     value: 'https://test-moodle.aglebert.zanichelli.it'
 
 service:
-  containerPort: 3000
+  containerPort: 80
 
-podLivenessProbe:
-  httpGet:
-    path: /
-podReadinessProbe:
-  httpGet:
-    path: /
+podLivenessProbe: {}
+  # httpGet:
+  #   path: /
+podReadinessProbe: {}
+  # httpGet:
+  #   path: /
 
 ingress:
   enabled: true
@@ -52,3 +51,15 @@ autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 2
+
+volumes:
+  efs:
+    persistentVolumeClaim:
+      claimName: moodle
+
+volumeMounts:
+  - mountPath: /var/www/moodledata
+    name: efs
+
+podSecurityContext:
+  fsGroup: 33
