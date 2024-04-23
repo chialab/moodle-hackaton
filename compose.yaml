@@ -26,6 +26,7 @@ services:
       - type: volume
         source: moodle-data
         target: /var/www/moodledata
+      - ./config.local/config.php:/var/www/moodle/config.php
     depends_on:
       mysql:
         condition: service_healthy
