@@ -27,6 +27,7 @@ services:
         source: moodle-data
         target: /var/www/moodledata
       - ./config.local/config.php:/var/www/moodle/config.php
+      - ./theme/albe/:/var/www/moodle/theme/albe/
     depends_on:
       mysql:
         condition: service_healthy
