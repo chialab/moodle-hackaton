@@ -4,36 +4,28 @@ networks:
 volumes:
   mysql-data: {}
   redis-data: {}
+  moodle-data: {}
 
 services:
   web:
-    image: moodle:web
+    image: moodle:dev
     build:
       context: .
-      target: web
     environment:
-      PHPFPM_HOST: 'app:9000'
-    networks: [default]
-    ports:
-      - 8100:80
-      - 8200:443
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-  app:
-    image: moodle:app
-    build:
-      context: .
-      target: app
-    environment:
-      DB_HOST: 'mysql:3306'
+      DB_HOST: 'mysql'
+      DB_PORT: '3306'
+      DB_NAME: 'moodle'
       DB_USERNAME: 'moodle'
       DB_PASSWORD: 'moodle'
+      MOODLE_HOST: 'http://localhost:8080'
       REDIS_HOST: 'redis'
-#    env_file: .env.web
     networks: [default]
+    ports:
+      - 8080:80
+    volumes:
+      - type: volume
+        source: moodle-data
+        target: /var/www/moodledata
     depends_on:
       mysql:
         condition: service_healthy
