@@ -170,6 +170,15 @@ idp-login :is(#divider-container, button#guestbutton) {
     }
 }
 
+#region-main {
+    background-color: transparent;
+}
+
+#page.drawers .activity-header {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .btn-secondary {
     border-color: var(--color-primary01) !important;
     background-color: var(--color-surface01) !important;
