@@ -1,0 +1,64 @@
+{{#haschildren}}
+    <z-menu slot="menu" floating>
+        <a active="{{#isactive}}active{{/isactive}}" id="drop-down-{{moremenuid}}">{{{text}}}</a>
+    </z-menu>
+    <z-menu slot="menu" floating>
+        <div active="{{#isactive}}active{{/isactive}}">{{{text}}}</div>
+        {{#children}}
+            {{^divider}}
+                {{#is_action_link}}
+                    <a slot="item" {{#actionattributes}}{{name}}="{{value}}" {{/actionattributes}} href="{{{url}}}{{{action}}}">
+                        {{{text}}}
+                    </a>
+                    {{#action_link_actions}}
+                        {{> core/actions }}
+                    {{/action_link_actions}}
+                {{/is_action_link}}
+                {{^is_action_link}}
+                    <a slot="item" href="{{{url}}}{{{action}}}" {{#isactive}}aria-current="true"{{/isactive}}>
+                        {{{text}}}
+                    </a>
+                {{/is_action_link}}
+            {{/divider}}
+            {{#divider}}
+                <div class="dropdown-divider"></div>
+            {{/divider}}
+        {{/children}}
+    </z-menu>
+{{/haschildren}}
+{{^haschildren}}
+    <z-menu slot="menu">
+        {{#istablist}}
+            {{#is_action_link}}
+                <a href="{{tab}}">{{{text}}}</a>
+                {{#action_link_actions}}
+                    {{> core/actions }}
+                {{/action_link_actions}}
+            {{/is_action_link}}
+            {{^is_action_link}}
+                <a {{#isactive}}active{{/isactive}} href="{{tab}}" {{#title}}title="{{.}}"{{/title}}>
+                    {{{text}}}
+                </a>
+            {{/is_action_link}}
+        {{/istablist}}
+        {{^istablist}}
+            {{#is_action_link}}
+                <a {{#actionattributes}}{{name}}="{{value}}" {{/actionattributes}} href="{{{url}}}{{{action}}}" {{#title}}title="{{.}}"{{/title}}>
+                    {{{text}}}
+                </a>
+                {{#action_link_actions}}
+                    {{> core/actions }}
+                {{/action_link_actions}}
+            {{/is_action_link}}
+            {{^is_action_link}}
+                <a href="{{{url}}}{{{action}}}"
+                    {{#title}}title="{{.}}"{{/title}}
+                    {{#isactive}}aria-current="true"{{/isactive}}
+                    {{^isactive}}tabindex="-1"{{/isactive}}
+                >
+                    {{{text}}}
+                </a>
+            {{/is_action_link}}
+        {{/istablist}}
+    </z-menu>
+{{/haschildren}}
