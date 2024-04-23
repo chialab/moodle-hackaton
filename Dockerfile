@@ -25,7 +25,6 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && rm /etc/apache2/conf-enabled/* \
     && rm /etc/apache2/sites-enabled/*
 
-ADD --link https://browscap.org/stream?q=Lite_PHP_BrowsCapINI /opt/browscap.ini
 COPY config/php/ /usr/local/etc/php/
 
 ###
