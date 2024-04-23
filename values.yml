@@ -1,0 +1,54 @@
+fullnameOverride: 'test'
+
+image:
+  repository: '709246138361.dkr.ecr.eu-west-1.amazonaws.com/moodle'
+  tag: '${IMAGE_TAG}'
+  pullPolicy: Always
+
+podEnvironment:
+  DB_HOST:
+    value: 'test-moodle-20240423091442367100000009.cjmyxronayb5.eu-west-1.rds.amazonaws.com'
+  DB_NAME:
+    value: moodle
+  DB_USERNAME:
+    value: root
+  DB_PASSWORD:
+    secret:
+      name: 'test'
+      key: 'dbPassword'
+  MOODLE_HOST:
+    value: 'https://test-moodle.aglebert.zanichelli.it'
+
+service:
+  containerPort: 3000
+
+podLivenessProbe:
+  httpGet:
+    path: /
+podReadinessProbe:
+  httpGet:
+    path: /
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: default-oauth2-proxy-secured@kubernetescrd
+  hosts:
+    - host: 'test-moodle.aglebert.zanichelli.it'
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+resources:
+  requests:
+    cpu: '100m'
+    memory: '128Mi'
+  limits:
+    cpu: '500m'
+    memory: '512Mi'
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2

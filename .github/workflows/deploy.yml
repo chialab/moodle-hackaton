@@ -65,5 +65,13 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v4
 
-    #   - name: Install AWS authenticator for Helm
-    #     run: 'curl "https://github.com/chialab/aws-ecr-get-login-password/releases/download/latest/aws-ecr-get-login-password-linux-${ARCH}" -sSLo /usr/local/bin/aws-ecr-get-login-password && chmod +x /usr/local/bin/aws-ecr-get-login-password'
+      - name: Deploy Helm
+        uses: bitovi/github-actions-deploy-eks-helm@v1.2.9
+        with:
+          aws-region: eu-west-1
+          cluster-name: aglebert-test
+          config-files: values.yaml
+          chart-path: chart/
+          namespace: moodle
+          values: image.tag=${{ steps.meta.outputs.tags[0] }}
+          name: test
