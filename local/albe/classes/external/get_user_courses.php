@@ -48,6 +48,6 @@ class get_user_courses extends external_api
         /** @var array{myzId: string} $params */
         $params = static::validate_parameters(static::execute_parameters(), ['myzId' => $myzId]);
 
-        return [];
+        return ['courseIds' => [1, 2, 3]];
     }
 }
