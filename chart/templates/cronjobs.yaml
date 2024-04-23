@@ -1,0 +1,76 @@
+{{ range $name, $cron := .Values.cronJobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ printf "%s-%s" (include "web-standalone.fullname" $) (lower $name) | trunc 52 | trimSuffix "-" }}
+  labels:
+    {{- include "web-standalone.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ $cron.schedule | quote }}
+  concurrencyPolicy: {{ $cron.concurrencyPolicy | default "Allow" }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          {{- with $.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "web-standalone.serviceAccountName" $ }}
+          securityContext:
+            {{- toYaml $.Values.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ $.Chart.Name }}
+              image: "{{ $.Values.image.image }}"
+              imagePullPolicy: {{ $.Values.image.pullPolicy }}
+              command:
+                {{- toYaml $cron.command | nindent 16 }}
+              {{- with ($cron.podEnvironment | default dict | merge $.Values.podEnvironment) }}
+              env:
+                {{- range $key, $env := . }}
+                - name: {{ $key | quote }}
+                  {{- if $env.value }}
+                  value: {{ $env.value | quote }}
+                  {{- else }}
+                  valueFrom:
+                    {{- if $env.configMap }}
+                    configMapKeyRef:
+                      name: {{ $env.configMap.name | quote }}
+                      key: {{ $env.configMap.key | quote }}
+                      optional: {{ $env.configMap.optional | default false }}
+                    {{- end }}
+                    {{- if $env.secret }}
+                    secretKeyRef:
+                      name: {{ $env.secret.name | quote }}
+                      key: {{ $env.secret.key | quote }}
+                      optional: {{ $env.secret.optional | default false }}
+                    {{- end }}
+                  {{- end }}
+                {{- end }}
+              {{- end }}
+              {{- with $.Values.volumeMounts }}
+              volumeMounts:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              resources:
+                {{- toYaml ($cron.resources | default dict | merge $.Values.resources) | nindent 16 }}
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: {{ $cron.restartPolicy | default "OnFailure" }}
+          volumes:
+              {{- range $name, $volume := $.Values.volumes }}
+              - name: {{ $name }}
+                {{- toYaml $volume | nindent 16 }}
+              {{- end }}
+{{ end }}

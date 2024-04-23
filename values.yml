@@ -62,3 +62,9 @@ volumeMounts:
 
 podSecurityContext:
   fsGroup: 33
+
+cronJobs:
+  asyncJobs:
+    schedule: '*/5 * * * *'
+    concurrencyPolicy: 'Forbid'
+    command: ['php', 'admin/cli/cron.php']
