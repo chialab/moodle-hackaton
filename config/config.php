@@ -43,6 +43,8 @@ $CFG->session_redis_acquire_lock_retry = 100; // Optional, default is 100ms (fro
 $CFG->session_redis_lock_expire = 7200;
 $CFG->session_redis_serializer_use_igbinary = false; // Optional, default is PHP builtin serializer.
 
+$CFG->disableupdateautodeploy = true;
+
 require_once(__DIR__ . '/lib/setup.php');
 
 // There is no php closing tag in this file,
