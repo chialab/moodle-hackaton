@@ -2,6 +2,11 @@ body {
   font-family: var(--font-family-sans);
 }
 
+idp-login {
+  flex: none;
+  height: auto !important;
+}
+
 .btn {
   font-family: inherit;
 }

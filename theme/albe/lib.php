@@ -21,7 +21,7 @@ function theme_albe_get_extra_scss($theme) {
   return theme_boost_get_extra_scss($theme) . file_get_contents($CFG->dirroot . '/theme/albe/scss/preset/extra.scss');
 }
 
-function theme_albe_get_main_scss_content($theme) {
+function theme_albe_get_main_scss_content() {
   global $CFG;
 
   return file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
