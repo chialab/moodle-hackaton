@@ -7,17 +7,13 @@
         {{#children}}
             {{^divider}}
                 {{#is_action_link}}
-                    <a slot="item" {{#actionattributes}}{{name}}="{{value}}" {{/actionattributes}} href="{{{url}}}{{{action}}}">
-                        {{{text}}}
-                    </a>
+                    <a slot="item" {{#actionattributes}}{{name}}="{{value}}" {{/actionattributes}} href="{{{url}}}{{{action}}}">{{{text}}}</a>
                     {{#action_link_actions}}
                         {{> core/actions }}
                     {{/action_link_actions}}
                 {{/is_action_link}}
                 {{^is_action_link}}
-                    <a slot="item" href="{{{url}}}{{{action}}}" {{#isactive}}active{{/isactive}}>
-                        {{{text}}}
-                    </a>
+                    <a slot="item" href="{{{url}}}{{{action}}}" {{#isactive}}active{{/isactive}}>{{{text}}}</a>
                 {{/is_action_link}}
             {{/divider}}
             {{#divider}}
@@ -36,9 +32,7 @@
                 {{/action_link_actions}}
             {{/is_action_link}}
             {{^is_action_link}}
-                <a {{#isactive}}active{{/isactive}} href="{{tab}}" {{#title}}title="{{.}}"{{/title}}>
-                    {{{text}}}
-                </a>
+                <a {{#isactive}}active{{/isactive}} href="{{tab}}" {{#title}}title="{{.}}"{{/title}}>{{{text}}}</a>
             {{/is_action_link}}
         {{/istablist}}
         {{^istablist}}
@@ -51,9 +45,7 @@
                 {{/action_link_actions}}
             {{/is_action_link}}
             {{^is_action_link}}
-                <a href="{{{url}}}{{{action}}}" {{#title}}title="{{.}}"{{/title}} {{#isactive}}active{{/isactive}}>
-                    {{{text}}}
-                </a>
+                <a href="{{{url}}}{{{action}}}" {{#title}}title="{{.}}"{{/title}} {{#isactive}}active{{/isactive}}>{{{text}}}</a>
             {{/is_action_link}}
         {{/istablist}}
     </z-menu>

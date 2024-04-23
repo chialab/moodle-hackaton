@@ -1,11 +1,13 @@
-{{#nodecollection}}
-  {{#children}}
+{{#output.edit_switch}}
+  {{#nodecollection}}
+    {{#children}}
+      {{> theme_albe/navbar_menu}}
+    {{/children}}
+  {{/nodecollection}}
+  {{#nodearray}}
     {{> theme_albe/navbar_menu}}
-  {{/children}}
-{{/nodecollection}}
-{{#nodearray}}
-    {{> theme_albe/navbar_menu}}
-{{/nodearray}}
+  {{/nodearray}}
+{{/output.edit_switch}}
 
 {{#usermenu}}
   {{#unauthenticateduser}}
@@ -16,7 +18,11 @@
     {{/url}}
   {{/unauthenticateduser}}
   {{^unauthenticateduser}}
-
+    <div slot="menu">
+      {{#usermenu}}
+          {{> core/user_menu }}
+      {{/usermenu}}
+    </div>
   {{/unauthenticateduser}}
 {{/usermenu}}
 

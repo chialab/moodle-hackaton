@@ -39,3 +39,26 @@ z-menu > a {
 .btn {
   font-family: inherit;
 }
+
+#page.drawers {
+  padding: var(--grid-margin);
+  margin-top: 0;
+
+  & .main-inner {
+    padding: var(--grid-margin) 0;
+    margin: 0;
+    max-width: 100% !important;
+  }
+
+  & div[role="main"] {
+    padding: 0;
+  }
+
+  & .header-maxwidth {
+    padding: 0;
+  }
+}
+
+idp-login :is(#divider-container, button#guestbutton) {
+  display: none !important;
+}
