@@ -6,8 +6,10 @@ FROM --platform=$BUILDPLATFORM chialab/php:8.1-fpm-alpine AS moodle
 COPY moodle/ /var/www/moodle/
 COPY theme/albe/ /var/www/moodle/theme/albe/
 
-ADD https://moodle.org/plugins/download.php/31677/qformat_h5p_moodle44_2020071512.zip /tmp/h5p.zip
-RUN unzip /tmp/h5p.zip -d /var/www/moodle/question/format/ && rm /tmp/h5p.zip
+ADD https://moodle.org/plugins/download.php/31677/qformat_h5p_moodle44_2020071512.zip /tmp/qformat_h5p.zip
+ADD https://moodle.org/plugins/download.php/30739/mod_hvp_moodle43_2023122500.zip /tmp/mod_hvp.zip
+RUN unzip /tmp/qformat_h5p.zip -d /var/www/moodle/question/format/ \
+    && unzip /tmp/mod_hvp.zip -d /var/www/moodle/mod/
 
 ###
 # Install additional required PHP dependencies over the chialab/php image, and unload `event` extension
