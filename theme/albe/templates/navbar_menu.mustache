@@ -1,5 +1,5 @@
 {{#haschildren}}
-    <z-menu slot="menu" floating>
+    <z-menu slot="menu">
         <a active="{{#isactive}}active{{/isactive}}" id="drop-down-{{moremenuid}}">{{{text}}}</a>
     </z-menu>
     <z-menu slot="menu" floating>
@@ -15,7 +15,7 @@
                     {{/action_link_actions}}
                 {{/is_action_link}}
                 {{^is_action_link}}
-                    <a slot="item" href="{{{url}}}{{{action}}}" {{#isactive}}aria-current="true"{{/isactive}}>
+                    <a slot="item" href="{{{url}}}{{{action}}}" {{#isactive}}active{{/isactive}}>
                         {{{text}}}
                     </a>
                 {{/is_action_link}}
@@ -51,11 +51,7 @@
                 {{/action_link_actions}}
             {{/is_action_link}}
             {{^is_action_link}}
-                <a href="{{{url}}}{{{action}}}"
-                    {{#title}}title="{{.}}"{{/title}}
-                    {{#isactive}}aria-current="true"{{/isactive}}
-                    {{^isactive}}tabindex="-1"{{/isactive}}
-                >
+                <a href="{{{url}}}{{{action}}}" {{#title}}title="{{.}}"{{/title}} {{#isactive}}active{{/isactive}}>
                     {{{text}}}
                 </a>
             {{/is_action_link}}

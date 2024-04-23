@@ -55,14 +55,14 @@
         ]
     }
 }}
-<idp-login
-    id="idp-login-bar"
-></idp-login>
+<idp-login id="idp-login-bar"></idp-login>
 
-<z-app-header>
-    <h1 slot="title">{{{ sitename }}}</h1>
-    {{#primarymoremenu}}
-        {{> theme_albe/navbar_menubar }}
-    {{/primarymoremenu}}
-    {{{ output.page_heading_menu }}}
-</z-app-header>
+<header>
+    <z-app-header stuck>
+        <h1 slot="title">{{{ sitename }}}</h1>
+        {{#primarymoremenu}}
+            {{> theme_albe/navbar_menubar }}
+        {{/primarymoremenu}}
+        {{{ output.page_heading_menu }}}
+    </z-app-header>
+</header>

@@ -13,13 +13,13 @@ idp-login + * {
 	margin-top: 48px;
 }
 
+idp-login + header {
+	box-shadow: var(--shadow-3);
+}
+
 zanichelli-footer {
 	display: block;
 	margin-top: calc(var(--grid-margin) * 2);
-}
-
-.btn {
-  font-family: inherit;
 }
 
 z-menu > a:hover {
@@ -34,4 +34,8 @@ z-menu > a:not([class]):focus {
 
 z-menu > a {
   color: var(--color-text01);
+}
+
+.btn {
+  font-family: inherit;
 }
