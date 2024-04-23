@@ -5,6 +5,7 @@ FROM --platform=$BUILDPLATFORM chialab/php:8.1-fpm-alpine AS moodle
 
 COPY moodle/ /var/www/moodle/
 COPY theme/albe/ /var/www/moodle/theme/albe/
+COPY local/albe/ /var/www/moodle/local/albe/
 
 # ADD https://moodle.org/plugins/download.php/31677/qformat_h5p_moodle44_2020071512.zip /tmp/qformat_h5p.zip
 # RUN unzip /tmp/qformat_h5p.zip -d /var/www/moodle/question/format/
