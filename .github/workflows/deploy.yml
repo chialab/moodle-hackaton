@@ -70,5 +70,5 @@ jobs:
           config-files: ./values.yaml
           chart-path: chart/
           namespace: moodle
-          values: image.tag=${{ fromJson(steps.meta.outputs.tags).tags[0] }}
+          values: image.tag=${{ steps.meta.outputs.tags }}
           name: test
