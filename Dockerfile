@@ -5,8 +5,6 @@ FROM --platform=$BUILDPLATFORM chialab/php:8.1-fpm-alpine AS moodle
 
 COPY moodle/ /var/www/moodle/
 COPY theme/albe/ /var/www/moodle/theme/albe/
-WORKDIR /var/www/moodle
-RUN composer install --no-dev --prefer-dist --no-interaction
 
 ###
 # Install additional required PHP dependencies over the chialab/php image, and unload `event` extension
