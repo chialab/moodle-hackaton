@@ -1,50 +1,37 @@
 ###
 # Assemble Moodle directory
 ###
-FROM --platform=$BUILDPLATFORM busybox:1 AS moodle
-
-SHELL [ "/bin/ash", "-o", "pipefail", "-c" ]
+FROM --platform=$BUILDPLATFORM chialab/php:8.3-fpm-alpine AS moodle
 
 COPY moodle/ /var/www/moodle/
+WORKDIR /var/www/moodle
+RUN composer install --no-dev --prefer-dist --no-interaction
 
 ###
 # Install additional required PHP dependencies over the chialab/php image, and unload `event` extension
 ###
-FROM chialab/php:8.3-apache AS php-base
+FROM chialab/php:8.3-fpm-alpine AS php-base
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
-    && rm /usr/local/etc/php/conf.d/xx-php-ext-event.ini \
-    && install-php-extensions gmp \
-    && a2enmod deflate \
-    && a2enmod headers \
-    && a2enmod proxy_fcgi \
-    && a2enmod proxy_http \
-    && a2enmod remoteip \
-    && a2enmod rewrite \
-    && a2enmod socache_shmcb \
-    && a2enmod ssl \
-    && a2enmod substitute \
-    && rm /etc/apache2/conf-enabled/* \
-    && rm /etc/apache2/sites-enabled/*
+    && rm /usr/local/etc/php/conf.d/xx-php-ext-event.ini
 
 ADD --link https://browscap.org/stream?q=Lite_PHP_BrowsCapINI /opt/browscap.ini
-# COPY --link config/php/ /usr/local/etc/php/
+
+COPY config/php-conf.ini /usr/local/etc/php/conf.d/bedita.ini
+COPY config/phpfpm-conf.ini /usr/local/etc/php-fpm.d/zzz-bedita.conf
 
 ###
-# Build final image
+# Caddy image
 ###
-FROM php-base
+FROM caddy:2-alpine AS web
 
-LABEL org.label-schema.schema-version="1.0" \
-    org.label-schema.name="iebook" \
-    org.label-schema.description="All-in-one image for BEdita 3 IEBook instance" \
-    org.label-schema.vcs-url="https://gitlab.com/iebook/infrastructure/ieb-kubernetes/" \
-    org.label-schema.vendor="Team Aglebert"
+COPY config/Caddyfile /etc/caddy/
+COPY --from=moodle /var/www/moodle /app/webroot
 
-# COPY --link config/apache/ /etc/apache2/
 
-COPY --from=moodle --chown=www-data:www-data /var/www/moodle /var/www/moodle
+###
+# Build app image
+###
+FROM php-base AS app
 
-WORKDIR /var/www/moodle
-# hadolint ignore=DL3025
-CMD apache2-foreground "${APACHE_ARGUMENTS}"
+COPY --from=moodle --chown=www-data:www-data /var/www/moodle /app/webroot
