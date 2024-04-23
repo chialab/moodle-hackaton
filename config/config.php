@@ -19,15 +19,17 @@ $CFG->dboptions = array (
   'ssl' => 'require',
 );
 
-$CFG->wwwroot   = 'http://test-moodle.aglebert.zanichelli.it';
+// $CFG->reverseproxy = true;
+$CFG->sslproxy  = 1;
+$CFG->wwwroot   = 'https://test-moodle.aglebert.zanichelli.it';
 $CFG->dataroot  = '/var/www/moodledata';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
 
-@error_reporting(E_ALL | E_STRICT);   // NOT FOR PRODUCTION SERVERS!
+@error_reporting(E_ALL | E_STRICT & ~E_DEPRECATED);   // NOT FOR PRODUCTION SERVERS!
 @ini_set('display_errors', '1');         // NOT FOR PRODUCTION SERVERS!
-$CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
+$CFG->debug = (E_ALL | E_STRICT & ~E_DEPRECATED);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
 $CFG->debugdisplay = 1;              // NOT FOR PRODUCTION SERVERS!
 
 $CFG->session_handler_class = '\core\session\redis';

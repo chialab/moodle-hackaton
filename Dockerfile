@@ -1,7 +1,7 @@
 ###
 # Assemble Moodle directory
 ###
-FROM --platform=$BUILDPLATFORM chialab/php:8.3-fpm-alpine AS moodle
+FROM --platform=$BUILDPLATFORM chialab/php:8.1-fpm-alpine AS moodle
 
 COPY moodle/ /var/www/moodle/
 WORKDIR /var/www/moodle
@@ -10,7 +10,7 @@ RUN composer install --no-dev --prefer-dist --no-interaction
 ###
 # Install additional required PHP dependencies over the chialab/php image, and unload `event` extension
 ###
-FROM chialab/php:8.3-apache AS php-base
+FROM chialab/php:8.1-apache AS php-base
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && rm /usr/local/etc/php/conf.d/xx-php-ext-event.ini \
