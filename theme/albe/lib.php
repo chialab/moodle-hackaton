@@ -7,22 +7,22 @@ defined('MOODLE_INTERNAL') || die();
 
 function theme_albe_get_pre_scss($theme) {
   global $CFG;
+
   return file_get_contents($CFG->dirroot . '/theme/albe/scss/preset/default.scss');
 }
 
 // Function to return the SCSS to append to our main SCSS for this theme.
 // Note the function name starts with the component name because this is a global function and we don't want namespace clashes.
 function theme_albe_get_extra_scss($theme) {
-  // Load the settings from the parent.
+  global $CFG;
+
   $theme = theme_config::load('boost');
-  // Call the parent themes get_extra_scss function.
-  return theme_boost_get_extra_scss($theme);
+
+  return theme_boost_get_extra_scss($theme) . file_get_contents($CFG->dirroot . '/theme/albe/scss/preset/extra.scss');
 }
 
 function theme_albe_get_main_scss_content($theme) {
   global $CFG;
-
-  $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
 
   return file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
 }
