@@ -32,7 +32,7 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.middlewares: default-oauth2-proxy-secured@kubernetescrd
+    # traefik.ingress.kubernetes.io/router.middlewares: default-oauth2-proxy-secured@kubernetescrd
   hosts:
     - host: 'test-moodle.aglebert.zanichelli.it'
       paths:
