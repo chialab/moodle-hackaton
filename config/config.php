@@ -16,6 +16,7 @@ $CFG->dboptions = array (
   'dbport' => 3306,
   'dbsocket' => '',
   'dbcollation' => 'utf8mb4_0900_ai_ci',
+  'ssl' => 'require',
 );
 
 $CFG->wwwroot   = 'http://test-moodle.aglebert.zanichelli.it';
