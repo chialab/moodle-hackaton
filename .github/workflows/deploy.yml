@@ -70,7 +70,7 @@ jobs:
         with:
           aws-region: eu-west-1
           cluster-name: aglebert-test
-          config-files: values.yaml
+          config-files: ./values.yaml
           chart-path: chart/
           namespace: moodle
           values: image.tag=${{ steps.meta.outputs.tags[0] }}
